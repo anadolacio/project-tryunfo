@@ -21,18 +21,18 @@ class App extends React.Component {
     const maxLength = 90;
     const minLength = 0;
     const totalLength = 210;
-   const validationName = name.length !== 0;
-   const validationImage = image.length !== 0;
-   const validationDescription = description.length !== 0;
-   const validationFirst = minLength < first.length || maxLength > first.length;
-   const validationSecond = minLength < second.length || maxLength > second.length;
-   const validationThird = minLength < third.length || maxLength > third.length;
-   const validationTotal = first.length + second.length + third.length < totalLength;
+    const validationName = name.length !== 0;
+    const validationImage = image.length !== 0;
+    const validationDescription = description.length !== 0;
+    const validationFirst = minLength < first.length || maxLength > first.length;
+    const validationSecond = minLength < second.length || maxLength > second.length;
+    const validationThird = minLength < third.length || maxLength > third.length;
+    const validationTotal = first.length + second.length + third.length < totalLength;
 
-   this.setState({
-    isSaveButtonDisabled: !(validationName && validationImage
-      && validationDescription && validationFirst && validationSecond
-       && validationThird && validationTotal),
+    this.setState({
+      isSaveButtonDisabled: !(validationName && validationImage
+     && validationDescription && validationFirst && validationSecond
+        && validationThird && validationTotal),
    });
   };
 
