@@ -33,7 +33,7 @@ class App extends React.Component {
       isSaveButtonDisabled: !(validationName && validationImage
      && validationDescription && validationFirst && validationSecond
         && validationThird && validationTotal),
-   });
+    });
   };
 
   onInputChange = ({ target }) => {
