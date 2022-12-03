@@ -13,18 +13,40 @@ class App extends React.Component {
     image: '',
     select: '',
     checkbox: '',
+    isSaveButtonDisabled: true,
+  };
+
+  validationFields = () => {
+    const { name, image, description, first, second, third } = this.state;
+    const maxLength = 90;
+    const minLength = 0;
+    const totalLength = 210;
+   const validationName = name.length !== 0;
+   const validationImage = image.length !== 0;
+   const validationDescription = description.length !== 0;
+   const validationFirst = minLength < first.length || maxLength > first.length;
+   const validationSecond = minLength < second.length || maxLength > second.length;
+   const validationThird = minLength < third.length || maxLength > third.length;
+   const validationTotal = first.length + second.length + third.length < totalLength;
+
+   this.setState({
+    isSaveButtonDisabled: !(validationName && validationImage
+      && validationDescription && validationFirst && validationSecond
+       && validationThird && validationTotal),
+   });
   };
 
   onInputChange = ({ target }) => {
     const { value, name } = target;
     this.setState({
       [name]: value,
-    });
+    }, this.validationFields);
   };
 
   render() {
     const {
-      name, description, first, second, third, image, select, checkbox } = this.state;
+      name,
+      description, first, second, third, image, select, checkbox } = this.state;
     return (
       <div>
         <h1>Tryunfo</h1>
