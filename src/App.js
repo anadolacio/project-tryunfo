@@ -23,7 +23,8 @@ class App extends React.Component {
   };
 
   render() {
-    const { name, description, first, second, third, image, select, checkbox } = this.state;
+    const {
+      name, description, first, second, third, image, select, checkbox } = this.state;
     return (
       <div>
         <h1>Tryunfo</h1>
