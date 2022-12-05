@@ -18,7 +18,7 @@ class Form extends Component {
     } = this.props;
 
     return (
-      <form className="form">
+      <form className="form" onSubmit={ onSaveButtonClick }>
         <label htmlFor="name">
           Nome
           <input
@@ -118,7 +118,7 @@ class Form extends Component {
         </label>
 
         <button
-          type="submit"
+          type="button"
           data-testid="save-button"
           disabled={ isSaveButtonDisabled }
           onClick={ onSaveButtonClick }
@@ -139,7 +139,7 @@ Form.propTypes = {
   cardAttr2: PropTypes.number.isRequired,
   cardAttr3: PropTypes.number.isRequired,
   cardImage: PropTypes.string.isRequired,
-  cardRare: PropTypes.bool.isRequired,
+  cardRare: PropTypes.string.isRequired,
   cardTrunfo: PropTypes.bool.isRequired,
   isSaveButtonDisabled: PropTypes.func.isRequired,
   onSaveButtonClick: PropTypes.func.isRequired,
