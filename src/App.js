@@ -6,14 +6,22 @@ class App extends React.Component {
   state = {
     name: '',
     description: '',
-    first: 0,
-    second: 0,
-    third: 0,
+    first: '',
+    second: '',
+    third: '',
     image: '',
-    select: '',
-    checkbox: false,
+    select: 'normal',
+    checkbox: '',
     isSaveButtonDisabled: true,
     savedCards: [],
+  };
+
+  onInputChange = ({ target }) => {
+    const { value, name } = target;
+    console.log(target);
+    this.setState({
+      [name]: value,
+    }, this.validationFields);
   };
 
   validationFields = () => {
@@ -41,34 +49,36 @@ class App extends React.Component {
     event.preventDefault();
     const { name, description, first, second,
       third, image, select, checkbox } = this.state;
-    const newCard = { name,
-      description,
-      first,
-      second,
-      third,
-      image,
-      select,
-      checkbox };
 
     this.setState((oldState) => ({
-      savedCards: [...oldState.savedCards, newCard],
+      savedCards: [...oldState.savedCards,
+        { name,
+          description,
+          first,
+          second,
+          third,
+          image,
+          select,
+          checkbox },
+      ],
       name: '',
       description: '',
-      first: 0,
-      second: 0,
-      third: 0,
+      first: '0',
+      second: '0',
+      third: '0',
       image: '',
-      checkbox: '',
+      checkbox: false,
+      select: 'normal',
       isSaveButtonDisabled: true,
     }));
-  };
 
-  onInputChange = ({ target }) => {
-    const { value, name } = target;
-    console.log(target);
-    this.setState({
-      [name]: value,
-    }, this.validationFields);
+    this.setState({ cardName: '' });
+    this.setState({ cardDescription: '' });
+    this.setState({ cardAttr1: '0' });
+    this.setState({ cardAttr2: '0' });
+    this.setState({ cardAttr3: '0' });
+    this.setState({ cardImage: '' });
+    this.setState({ cardRare: '' });
   };
 
   render() {
@@ -96,23 +106,25 @@ class App extends React.Component {
             cardTrunfo={ checkbox }
           />
         </section>
-        <section>
+        <div>
           {
-            savedCards.map((element) => (
-              <Card
-                key={ element.name }
-                cardName={ element.name }
-                cardDescription={ element.description }
-                cardAttr1={ element.first }
-                cardAttr2={ element.second }
-                cardAttr3={ element.third }
-                cardImage={ element.image }
-                cardRare={ element.select }
-                cardTrunfo={ element.checkbox }
-              />
+            savedCards.length > 0 && savedCards.map((element) => (
+              <section key={ element.name }>
+                <Card
+                  cardName={ element.name }
+                  cardDescription={ element.description }
+                  cardAttr1={ element.first }
+                  cardAttr2={ element.second }
+                  cardAttr3={ element.third }
+                  cardImage={ element.image }
+                  cardRare={ element.select }
+                  cardTrunfo={ element.checkbox }
+                />
+              </section>
             ))
           }
-        </section>
+        </div>
+
       </main>
     );
   }

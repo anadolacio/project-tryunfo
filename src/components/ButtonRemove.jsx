@@ -3,11 +3,9 @@ import React from 'react';
 class ButtonRemove extends React.Component {
   render() {
     return (
-      <div>
-        <button type="submit" data-testid="delete-button">
-          Excluir
-        </button>
-      </div>
+      <button type="button" data-testid="delete-button" onClick={ removeCard }>
+        Excluir
+      </button>
     );
   }
 }
