@@ -4,39 +4,60 @@ import Form from './components/Form';
 
 class App extends React.Component {
   state = {
-    name: '',
-    description: '',
-    first: '',
-    second: '',
-    third: '',
-    image: '',
-    select: 'normal',
-    checkbox: '',
+    cardName: '',
+    cardDescription: '',
+    cardAttr1: '',
+    cardAttr2: '',
+    cardAttr3: '',
+    cardImage: '',
+    cardRare: 'normal',
+    cardTrunfo: false,
     isSaveButtonDisabled: true,
     savedCards: [],
   };
 
+  // componentDidMount() {
+  //   const getLocalStorage = JSON.parse(localStorage.getItem('myCards'));
+  //   if (getLocalStorage !== null) {
+  //     this.setState({
+  //       savedCards: getLocalStorage,
+  //     });
+  //   }
+  // }
+
   onInputChange = ({ target }) => {
     const { value, name } = target;
-    console.log(target);
+    // console.log(target);
     this.setState({
       [name]: value,
     }, this.validationFields);
   };
 
   validationFields = () => {
-    const { name, image, description, first, second, third, select } = this.state;
+    const {
+      cardName,
+      cardDescription,
+      cardAttr1,
+      cardAttr2,
+      cardAttr3,
+      cardImage,
+      cardRare,
+    } = this.state;
     const maxLength = 90;
     const minLength = 0;
     const totalLength = 210;
-    const validationName = name.length !== 0;
-    const validationImage = image.length !== 0;
-    const validationSelect = select.length !== '';
-    const validationDescription = description.length !== 0;
-    const validationFirst = minLength <= Number(first) && maxLength >= Number(first);
-    const validationSecond = minLength <= Number(second) && maxLength >= Number(second);
-    const validationThird = minLength <= Number(third) && maxLength >= Number(third);
-    const validationTotal = Number(first) + Number(second) + Number(third) <= totalLength;
+    const validationName = cardName.length !== 0;
+    const validationImage = cardImage.length !== 0;
+    const validationSelect = cardRare.length !== '';
+    const validationDescription = cardDescription.length !== 0;
+    const validationFirst = minLength <= Number(cardAttr1)
+    && maxLength >= Number(cardAttr1);
+    const validationSecond = minLength <= Number(cardAttr2)
+    && maxLength >= Number(cardAttr2);
+    const validationThird = minLength <= Number(cardAttr3)
+    && maxLength >= Number(cardAttr3);
+    const validationTotal = Number(cardAttr1)
+    + Number(cardAttr2) + Number(cardAttr3) <= totalLength;
 
     this.setState({
       isSaveButtonDisabled: !(validationName && validationImage
@@ -45,46 +66,67 @@ class App extends React.Component {
     });
   };
 
-  onSaveButtonClick = (event) => {
-    event.preventDefault();
-    const { name, description, first, second,
-      third, image, select, checkbox } = this.state;
+  // saveLocalStorage = () => {
+  //   const { savedCards } = this.setState;
+  //   localStorage.setItem('myCards', JSON.stringify(savedCards));
+  // };
 
-    this.setState((oldState) => ({
-      savedCards: [...oldState.savedCards,
-        { name,
-          description,
-          first,
-          second,
-          third,
-          image,
-          select,
-          checkbox },
+  onSaveButtonClick = () => {
+    const {
+      cardName,
+      cardDescription,
+      cardAttr1,
+      cardAttr2,
+      cardAttr3,
+      cardImage,
+      cardRare,
+      cardTrunfo,
+      savedCards,
+    } = this.state;
+
+    this.setState({
+      savedCards: [...savedCards,
+        { cardName,
+          cardDescription,
+          cardAttr1,
+          cardAttr2,
+          cardAttr3,
+          cardImage,
+          cardRare,
+          cardTrunfo },
       ],
-      name: '',
-      description: '',
-      first: '0',
-      second: '0',
-      third: '0',
-      image: '',
-      checkbox: false,
-      select: 'normal',
-      isSaveButtonDisabled: true,
-    }));
+      cardName: '',
+      cardDescription: '',
+      cardAttr1: '',
+      cardAttr2: '',
+      cardAttr3: '',
+      cardImage: '',
+      cardRare: 'normal',
+      cardTrunfo: false,
+    });
+  };
 
-    this.setState({ cardName: '' });
-    this.setState({ cardDescription: '' });
-    this.setState({ cardAttr1: '0' });
-    this.setState({ cardAttr2: '0' });
-    this.setState({ cardAttr3: '0' });
-    this.setState({ cardImage: '' });
-    this.setState({ cardRare: '' });
+  removeCard = ({ target }) => {
+    const { id } = target;
+    console.log(target);
+    const { savedCards } = this.state;
+
+    const filterCards = savedCards.filter((element) => element.cardName !== id);
+    this.setState({
+      savedCards: filterCards,
+    });
   };
 
   render() {
     const {
-      name,
-      description, first, second, third, image, select, checkbox,
+      cardName,
+      cardDescription,
+      cardAttr1,
+      cardAttr2,
+      cardAttr3,
+      cardImage,
+      cardRare,
+      cardTrunfo,
       savedCards } = this.state;
     return (
       <main>
@@ -96,30 +138,39 @@ class App extends React.Component {
             onSaveButtonClick={ this.onSaveButtonClick }
           />
           <Card
-            cardName={ name }
-            cardDescription={ description }
-            cardAttr1={ first }
-            cardAttr2={ second }
-            cardAttr3={ third }
-            cardImage={ image }
-            cardRare={ select }
-            cardTrunfo={ checkbox }
+            cardName={ cardName }
+            cardDescription={ cardDescription }
+            cardAttr1={ cardAttr1 }
+            cardAttr2={ cardAttr2 }
+            cardAttr3={ cardAttr3 }
+            cardImage={ cardImage }
+            cardRare={ cardRare }
+            cardTrunfo={ cardTrunfo }
           />
         </section>
         <div>
           {
             savedCards.length > 0 && savedCards.map((element) => (
-              <section key={ element.name }>
+              <section key={ element.cardName }>
                 <Card
-                  cardName={ element.name }
-                  cardDescription={ element.description }
-                  cardAttr1={ element.first }
-                  cardAttr2={ element.second }
-                  cardAttr3={ element.third }
-                  cardImage={ element.image }
-                  cardRare={ element.select }
-                  cardTrunfo={ element.checkbox }
+                  cardName={ element.cardName }
+                  cardDescription={ element.cardDescription }
+                  cardAttr1={ element.cardAttr1 }
+                  cardAttr2={ element.cardAttr2 }
+                  cardAttr3={ element.cardAttr3 }
+                  cardImage={ element.cardImage }
+                  cardRare={ element.cardRare }
+                  cardTrunfo={ element.cardTrunfo }
                 />
+                <button
+                  type="button"
+                  cata-testid="delete-button"
+                  id={ element.cardName }
+                  onClick={ this.removeCard }
+                >
+                  Excluir
+                </button>
+
               </section>
             ))
           }
