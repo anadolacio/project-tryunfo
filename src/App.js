@@ -10,8 +10,9 @@ class App extends React.Component {
     cardAttr2: '',
     cardAttr3: '',
     cardImage: '',
-    cardRare: 'normal',
+    cardRare: '',
     cardTrunfo: false,
+    hasTrunfo: false,
     isSaveButtonDisabled: true,
     savedCards: [],
   };
@@ -71,6 +72,12 @@ class App extends React.Component {
   //   localStorage.setItem('myCards', JSON.stringify(savedCards));
   // };
 
+  findHasTrunfo = () => {
+    const { savedCards } = this.state;
+    const isAnyTrunfoCard = savedCards.some((element) => element.cardTrunfo === true);
+    this.setState({ hasTrunfo: isAnyTrunfoCard });
+  };
+
   onSaveButtonClick = () => {
     const {
       cardName,
@@ -83,6 +90,10 @@ class App extends React.Component {
       cardTrunfo,
       savedCards,
     } = this.state;
+
+    if (cardTrunfo) {
+      this.setState({ hasTrunfo: true });
+    }
 
     this.setState({
       savedCards: [...savedCards,
@@ -103,12 +114,12 @@ class App extends React.Component {
       cardImage: '',
       cardRare: 'normal',
       cardTrunfo: false,
-    });
+    }, this.findHasTrunfo);
   };
 
   removeCard = ({ target }) => {
     const { id } = target;
-    console.log(target);
+    // console.log(target);
     const { savedCards } = this.state;
 
     const filterCards = savedCards.filter((element) => element.cardName !== id);
@@ -164,7 +175,7 @@ class App extends React.Component {
                 />
                 <button
                   type="button"
-                  cata-testid="delete-button"
+                  data-testid="delete-button"
                   id={ element.cardName }
                   onClick={ this.removeCard }
                 >
